@@ -1,0 +1,13 @@
+type Int = {1, 2, 3}
+type Point = (Int, Int)
+type Q = (Int, Int)
+
+
+type Human = (String, {"Young", "Old"})
+
+
+print(Q(1, 2))
+
+Q(p, q) + Q(n, m) = Q(p * m + n * q, q * m)
+
+

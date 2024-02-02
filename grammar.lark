@@ -1,0 +1,56 @@
+// Templates
+separated{x}: x ("," x)*
+
+// Rules
+start: _NL* stmt*
+
+?stmt: (funcdef | bindef | typedef | assign | expr) _NL+
+
+funcdef: name "(" params? ")" "=" expr
+    params: param ("," param)*
+    ?param: number | name
+bindef: func_match binop func_match "=" expr
+    func_match: name "(" params? ")"
+    !binop: "+" | "-" | "*" | "/"
+typedef.20: "type" name "=" top_type_tree
+    ?top_type_tree: product_type | sum_type
+    product_type: "(" separated{inner_type_tree} ")"
+    sum_type: "{" separated{inner_type_tree} "}"
+    ?inner_type_tree: product_type | sum_type | type_terminal
+    ?type_terminal: number | name | string
+assign: name "=" expr
+?expr: sum
+    ?sum: product
+        | sum "+" product -> add
+        | sum "-" product -> sub
+    ?product: value
+        | product "*" value -> mul
+        | product "/" value -> div
+    args: expr ("," expr)*
+    ?value: funccall | namecall | number | string | set | tuple
+        funccall.10: name "(" args? ")"
+        namecall: IDENT
+        number: NUMBER
+        set: "{" args "}"
+        tuple: "(" args ")"
+
+
+
+name: IDENT
+string: ESCAPED_STRING
+
+NUMBER: DIGIT+
+IDENT: ALPHA ALNUM*
+
+_STRING_INNER: /.*?/
+_STRING_ESC_INNER: _STRING_INNER /(?<!\\)(\\\\)*?/
+ESCAPED_STRING : "\"" _STRING_ESC_INNER "\""
+
+_NL: /\n/
+DIGIT: "0".."9"
+LOWER_ALPHA: "a".."z"
+UPPER_ALPHA: "A".."Z"
+ALPHA: LOWER_ALPHA | UPPER_ALPHA
+ALNUM: ALPHA | DIGIT
+
+%ignore " "

@@ -1,0 +1,72 @@
+# Lia ideas
+# Lia is python-like programming language with some ideas from functional pls
+
+
+# It has standard builtin types: int, float, string, arrays
+n = 2
+pi = 3.14
+name = "Liasis"
+arr = [1, 2, 3]
+
+
+# Function can be defined in one line
+
+inc(n) = n + 1
+
+
+
+# Functions can be overloaded with
+# pattern matching
+
+factorial(0) = 1
+factorial(x) = x * factorial(x - 1)
+
+
+
+# So far function body was just one expression
+# it is possible to make multiline function with `block`
+
+min(arr) = block:
+    smallest = int.max
+    for n in arr:
+        if n < smallest:
+            smallest = n
+    return smallest
+
+
+
+# There is standard control flow constructs
+# While
+
+block:
+    x = 1 
+    while x < 15:
+        x = x + x
+    print(x)
+
+
+# For each
+
+block:
+    ans = 1
+    for x in range(10):
+        ans += x
+    print(ans)
+
+
+
+
+
+type Int = {1, 2, 3}
+type Point = (Int, Int)
+type Q = (Int, Int)
+
+
+type Human = (String, {"Young", "Old"})
+
+
+print(Q(1, 2))
+
+Q(p, q) + Q(n, m) = Q(p * m + n * q, q * m)
+
+
